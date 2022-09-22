@@ -3,7 +3,8 @@ const Header = () => {
     <div className = 'container header'>
       <div className = 'row'>
         <div className = 'col-12 text-center'>
-          <h1> Currency Exchange Rates</h1>
+        
+          <h1> Currency Converter</h1>
         </div>
       </div>
     </div>

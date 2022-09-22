@@ -1,14 +1,18 @@
 import React from 'react';
-let rate1 = document.getElementsByClassName('Rate1');
-let rate2 = document.getElementsByClassName('Rate2');
+
+
 let dropdown1 = document.getElementsByClassName('selectCurrency1');
 let dropdown2 = document.getElementsByClassName('selectCurrency2');
-let result;
 
 class Input extends React.Component {
     state = {
         values: [],
-        rates: []
+        rates: [],
+        placeholder1:'',
+        placeholder2:'',
+        inputs1: '',
+        inputs2: ''
+        
     }
    
     componentDidMount() {
@@ -17,45 +21,56 @@ class Input extends React.Component {
         .then((data)=> {
             this.setState({
                values: (['SELECT CURRENCY', data.base, ...Object.keys(data.rates)]),
-               rates: (['0', data.amount, ...Object.values(data.rates)])
+               rates: (['0', data.amount, ...Object.values(data.rates)]),
             })
-
+console.log(this)
         }).catch((error) => {
             console.log(error);
         });
     }
-    render(){
 
-        const Converter1 = (e) =>{
-            let toRate = this.state.rates[this.state.values.indexOf(dropdown2 .value)];
+  
+  
+    render(){        
+        const onChange1 = (e) => {
+            dropdown1.value =  e.target.value;
+            this.setState({placeholder1: this.state.rates[this.state.values.indexOf(dropdown1.value)]})
+            let toRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
             let fromRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
-            let baseAmount = this.state.rates[1]
-                result = (baseAmount/toRate)*e.target.value*fromRate;
-                rate2.value = result;
-                console.log(result)
+            let baseAmount = this.state.rates[1];
+            let result2 = (baseAmount/fromRate)*e.target.value*toRate;
+            this.setState({inputs2: (result2)})
+         }
+         
+         const onChange2 = (e) => {
+             dropdown2.value =  e.target.value;
+             this.setState({placeholder2: this.state.rates[this.state.values.indexOf(dropdown2.value)]})
+             let toRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
+             let fromRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
+             let baseAmount = this.state.rates[1]
+             let result1 = (baseAmount/fromRate)*e.target.value*toRate;
+             this.setState({inputs1: (result1)})
+          }
+
+          const Converter1 = (e) =>{
+            let toRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
+            let fromRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
+            let baseAmount = this.state.rates[1];
+            let result2 = ((baseAmount/fromRate)*e.target.value*toRate).toFixed(2);
+            this.setState({inputs2: (result2)})
         }
 
         const Converter2 = (e) =>{
-            let toRate = this.state.rates[this.state.values.indexOf(dropdown2 .value)];
-            let fromRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
+            let toRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
+            let fromRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
             let baseAmount = this.state.rates[1]
-                result = (baseAmount/fromRate)*e.target.value*toRate;
-                rate1.value = result;
-                console.log(result)
+            let result1 = ((baseAmount/fromRate)*e.target.value*toRate).toFixed(2);
+            this.setState({inputs1: (result1)})     
         }
 
-        
-        const onChange2 = (e) => {
-            dropdown1.value =  e.target.value;
-            return Converter1(e);
-         }
-         
-         const onChange1 = (e) => {
-             dropdown2.value =  e.target.value;
-             return Converter2(e);
-          }
 
-        return <div className='container'>
+          return( 
+          <div className='container'>
             <div className='row d-flex justify-content-center text-center border'>
                 <div className='col-md-12 col-lg-4 order-md-1 order-lg-1'>
                     <select className='selectCurrency1' onChange={onChange1}>{
@@ -66,25 +81,27 @@ class Input extends React.Component {
                 </div>
 
                 <div className='col-md-12 col-lg-4 order-md-2 order-lg-3 spacing '>
-                    <input className='Rate1' type='number' placeholder='0.00' onInput={Converter1}></input>
+                    <input className='Rate1' type='number' onChange={Converter1} placeholder={this.state.placeholder1} defaultValue={this.state.inputs1}/>
                 </div>
 
                 <div className='main'>
                 </div>                
 
-                <div className='col-md-12 col-lg-4 order-md-3 order-lg-2 selectCurrency'>
+                <div className='col-md-12 col-lg-4 order-md-3 order-lg-2'>
                     <select className='selectCurrency2' onChange={onChange2}>{
                         this.state.values.map((object) => {
-                            return <option className='Valu2'  key={object}>{object}</option>
+                            return <option className='Value2'  key={object}>{object}</option>
                         })
                     }</select> 
                 </div>
 
-                <div className='col-md-12 col-lg-4 order-md-4 order-lg-4'>
-                    <input className='Rate2' type='number' placeholder='0.00' onInput={Converter2}></input>
+                <div className='col-md-12 col-lg-4 order-md-2 order-lg-3'>
+                    <input className='Rate2' type='number' onChange={Converter2} placeholder={this.state.placeholder2} defaultValue={this.state.inputs2}/>
                 </div>
+
             </div>            
         </div>
+          )
 
     }
 }

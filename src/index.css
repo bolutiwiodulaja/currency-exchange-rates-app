@@ -8,6 +8,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  min-width:960px;
 }
 
 .border{
@@ -23,6 +24,14 @@ body {
   margin-top: -20px;
 }
 
+.currencyList {
+  background-color: aliceblue;
+  opacity: 0.8;
+  overflow-y: scroll;
+  max-height: 500px;
+  margin-top: 60px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -35,7 +44,7 @@ body {
 }
 
 
-.facebook, .instagram {
+.facebook {
   background-image: url('C:\Webdesignium\currency-exchange-rates-app\src\images\5305153_fb_facebook_facebook logo_icon.jpg');
 }
 
@@ -55,4 +64,10 @@ body {
 }
 .spacing {
   margin-left: 1px;
+}
+
+.selectCurrency {
+  position: fixed;
+  margin-top: 20px;
+  max-width: 100px;
 }
