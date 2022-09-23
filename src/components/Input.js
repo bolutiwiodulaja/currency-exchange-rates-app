@@ -1,79 +1,58 @@
 import React from 'react';
 
-
-let dropdown1 = document.getElementsByClassName('selectCurrency1');
-let dropdown2 = document.getElementsByClassName('selectCurrency2');
-
 class Input extends React.Component {
     state = {
         values: [],
         rates: [],
-        placeholder1:'',
-        placeholder2:'',
-        inputs1: '',
-        inputs2: ''
-        
+        currencyBase:'USD',
+        currencyTarget:'EUR',
+        baseValue: 1
     }
    
     componentDidMount() {
-       fetch('https://altexchangerateapi.herokuapp.com/latest?from=USD')
+        fetch('https://altexchangerateapi.herokuapp.com/latest?from=USD')
         .then((response) => {return response.json()}) 
         .then((data)=> {
             this.setState({
                values: (['SELECT CURRENCY', data.base, ...Object.keys(data.rates)]),
-               rates: (['0', data.amount, ...Object.values(data.rates)]),
+               rates: data.rates,
             })
-console.log(this)
+            console.log(this)
         }).catch((error) => {
             console.log(error);
         });
     }
 
+    updateRates = () => {
+        fetch(`https://altexchangerateapi.herokuapp.com/latest?from=${this.state.currencyBase}&to=${this.state.currencyTarget}`)
+        .then((response) => {return response.json()}) 
+        .then((data)=> {
+            this.setState({
+               rates: data.rates,
+            })
+            console.log(this)
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    onCurrencyChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value,
+        }, () => {
+            this.updateRates();
+        })
+    }
+
   
   
-    render(){        
-        const onChange1 = (e) => {
-            dropdown1.value =  e.target.value;
-            this.setState({placeholder1: this.state.rates[this.state.values.indexOf(dropdown1.value)]})
-            let toRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
-            let fromRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
-            let baseAmount = this.state.rates[1];
-            let result2 = (baseAmount/fromRate)*e.target.value*toRate;
-            this.setState({inputs2: (result2)})
-         }
-         
-         const onChange2 = (e) => {
-             dropdown2.value =  e.target.value;
-             this.setState({placeholder2: this.state.rates[this.state.values.indexOf(dropdown2.value)]})
-             let toRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
-             let fromRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
-             let baseAmount = this.state.rates[1]
-             let result1 = (baseAmount/fromRate)*e.target.value*toRate;
-             this.setState({inputs1: (result1)})
-          }
-
-          const Converter1 = (e) =>{
-            let toRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
-            let fromRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
-            let baseAmount = this.state.rates[1];
-            let result2 = ((baseAmount/fromRate)*e.target.value*toRate).toFixed(2);
-            this.setState({inputs2: (result2)})
-        }
-
-        const Converter2 = (e) =>{
-            let toRate = this.state.rates[this.state.values.indexOf(dropdown1.value)];
-            let fromRate = this.state.rates[this.state.values.indexOf(dropdown2.value)];
-            let baseAmount = this.state.rates[1]
-            let result1 = ((baseAmount/fromRate)*e.target.value*toRate).toFixed(2);
-            this.setState({inputs1: (result1)})     
-        }
-
-
-          return( 
-          <div className='container'>
+    render(){       
+        const { baseValue, currencyTarget, rates } = this.state;
+        return( 
+        <div className='container'>
             <div className='row d-flex justify-content-center text-center border'>
                 <div className='col-md-12 col-lg-4 order-md-1 order-lg-1'>
-                    <select className='selectCurrency1' onChange={onChange1}>{
+                    <select className='selectCurrency1' name="currencyBase" onChange={this.onCurrencyChange} value={this.state.currencyBase}>{
                         this.state.values.map((object) => {
                             return <option className='Value1' key={object}>{object}</option>
                         })
@@ -81,14 +60,14 @@ console.log(this)
                 </div>
 
                 <div className='col-md-12 col-lg-4 order-md-2 order-lg-3 spacing '>
-                    <input className='Rate1' type='number' onChange={Converter1} placeholder={this.state.placeholder1} defaultValue={this.state.inputs1}/>
+                    <input className='Rate1' type='number' defaultValue={this.state.baseValue}/>
                 </div>
 
                 <div className='main'>
                 </div>                
 
                 <div className='col-md-12 col-lg-4 order-md-3 order-lg-2'>
-                    <select className='selectCurrency2' onChange={onChange2}>{
+                    <select className='selectCurrency2' name="currencyTarget" onChange={this.onCurrencyChange}  value={this.state.currencyTarget}>{
                         this.state.values.map((object) => {
                             return <option className='Value2'  key={object}>{object}</option>
                         })
@@ -96,13 +75,12 @@ console.log(this)
                 </div>
 
                 <div className='col-md-12 col-lg-4 order-md-2 order-lg-3'>
-                    <input className='Rate2' type='number' onChange={Converter2} placeholder={this.state.placeholder2} defaultValue={this.state.inputs2}/>
+                    <p>{rates[currencyTarget] && rates[currencyTarget] * baseValue}</p>
                 </div>
 
             </div>            
         </div>
-          )
-
+        )
     }
 }
 export default Input;
