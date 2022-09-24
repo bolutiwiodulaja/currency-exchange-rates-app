@@ -4,7 +4,7 @@ select, input {
 }
 
 body {
-  background-image: url('C:\Webdesignium\currency-exchange-rates-app\src\images\money-g7e6ff2b91_1920.jpg');
+  background-image: url('/src/images/money-g7e6ff2b91_1920.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -45,16 +45,16 @@ body {
 
 
 .facebook {
-  background-image: url('C:\Webdesignium\currency-exchange-rates-app\src\images\5305153_fb_facebook_facebook logo_icon.jpg');
+  background-image: url('/src/images/5305153_fb_facebook_facebook logo_icon.jpg');
 }
 
 .instagram {
-  background-image: url('C:\Webdesignium\currency-exchange-rates-app\src\images\104466_instagram_icon.jpg');
+  background-image: url('/src/images/104466_instagram_icon.jpg');
 }
 
 @media only screen and (min-width: 1000px) {
   .main{
-    background-image: url('C:\Webdesignium\currency-exchange-rates-app\src\images\Arrow1.png');
+    background-image: url('/src/images/Arrow1.png');
     background-repeat: no-repeat;
     background-position: center;
     position: relative;

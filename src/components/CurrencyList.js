@@ -72,7 +72,7 @@ console.log(this)
 
                 <div className='col-4'>
                   {this.state.rates.map((object) => {
-                            return <p className='rate' key={object}>{object.toFixed(2)}</p>
+                            return <p className='rate' key={object}>{object.toFixed(3)}</p>
                         })
                   }
                 </div>
