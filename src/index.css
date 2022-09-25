@@ -50,6 +50,7 @@ body {
     background-image: url('/src/images/Arrow1.png');
     background-repeat: no-repeat;
     background-position: center;
+    position: relative;
     top: 45px;
     padding-bottom: 20px;
   }
