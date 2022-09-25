@@ -1,19 +1,21 @@
 import React from 'react';
-/*import Chart from 'chart.js';
-import currencies from './utils/currencies';
-import { checkStatus, json } from './utils/fetchUtils';*/
+/*import Chart from 'chart.js';*/
+
 
 
 class Input extends React.Component {
+  
     state = {
         values: [],
         rates: [],
         currencyBase:'USD',
         currencyTarget:'EUR',
         baseValue: 1,
-        input1: 1
-        
+        input1: 1,
+        /*chartRef: React.createRef()*/
     }
+
+    
    
     componentDidMount() {
        fetch('https://altexchangerateapi.herokuapp.com/latest?from=USD')
@@ -27,8 +29,9 @@ class Input extends React.Component {
         }).catch((error) => {
             console.log(error);
         });
+
               //...
-             /* const { baseAcronym, quoteAcronym } = this.state;
+              /*const { baseAcronym, quoteAcronym } = this.state;
               this.getRate(baseAcronym, quoteAcronym);
               this.getHistoricalRates(baseAcronym, quoteAcronym);*/
     }
@@ -39,8 +42,7 @@ class Input extends React.Component {
         const startDate = new Date((new Date()).getTime() - (30 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0];
     
         fetch(`https://api.frankfurter.app/${startDate}..${endDate}?from=${base}&to=${quote}`)
-          .then(checkStatus)
-          .then(json)
+          .then((response) => {return response.json()}) 
           .then(data => {
             if (data.error) {
               throw new Error(data.error);
@@ -55,7 +57,6 @@ class Input extends React.Component {
       }
     
       buildChart = (labels, data, label) => {
-        const chartRef = this.chartRef.current.getContext("2d");
     
         if (typeof this.chart !== "undefined") {
           this.chart.destroy();
@@ -97,12 +98,12 @@ class Input extends React.Component {
         this.setState({ quoteAcronym });
         this.getRate(this.state.baseAcronym, quoteAcronym);
         this.getHistoricalRates(this.state.baseAcronym, quoteAcronym);
-      }
+      }*/
     
       //...
     
       //...
-*/
+
     updateRates = () => {
       fetch(`https://altexchangerateapi.herokuapp.com/latest?from=${this.state.currencyBase}&to=${this.state.currencyTarget}`)
         .then((response) => {return response.json()}) 
@@ -135,7 +136,7 @@ class Input extends React.Component {
           const { baseValue, currencyTarget, rates, input1 } = this.state;
 
           return( 
-           /* <React.Fragment>*/
+           /*<React.Fragment>*/
           <div className='container'>
             <div className='row d-flex justify-content-center text-center border'>
                 <div className='col-md-12 col-lg-4 order-md-1 order-lg-1'>
@@ -162,12 +163,12 @@ class Input extends React.Component {
                 </div>
 
                 <div className='col-md-12 col-lg-4 order-md-2 order-lg-3'>
-                  <input className='Rate2' type='number' disabled={true} value={rates[currencyTarget]  * input1}/>
+                  <input className='Rate2' type='number' disabled={true} value={rates[currencyTarget]* baseValue  * input1}/>
                 </div>
             </div>       
         </div>
-       /*<canvas ref={this.chartRef} />
-         </React.Fragment>  */
+          /*<canvas ref={this.chartRef} />
+         </React.Fragment>*/  
           )
 
     }

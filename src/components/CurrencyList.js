@@ -55,7 +55,7 @@ console.log(this)
                 }</select>
             </div>
 
-            <div className='row d-flex justify-content-center text-center currencyList'>
+            <div className='row justify-content-center text-center currencyList'>
                 <div className='col-4'>
                   {this.state.countries.map((object) => {
                             return <p className='countries' key={object}>{object}</p>
