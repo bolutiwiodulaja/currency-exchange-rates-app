@@ -13,10 +13,16 @@ body {
 
 .border{
   padding: 40px;
-  margin-top: 30%;
+  margin-top: 20%;
   border: 5px solid;
   border-radius: 10px;
   border-color: green;
+}
+
+.graph {
+  margin-top: 20px;
+  background-color: aliceblue;
+  opacity: 0.8;
 }
 
 .currencyList {
